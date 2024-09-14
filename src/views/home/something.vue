@@ -34,7 +34,7 @@ const userInfo = ref([
   },
   {
     label: "性别",
-    value: "男",
+    value: "男♂",
   },
   {
     label: "出生年月",
@@ -46,7 +46,7 @@ const userInfo = ref([
   },
   {
     label: "职业",
-    value: "GIS工程师",
+    value: "🌏GIS工程师",
   },
   {
     label: "爱好",
