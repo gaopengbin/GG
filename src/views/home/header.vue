@@ -1,20 +1,38 @@
 <template>
-  <n-split :default-size="0.8">
+  <n-split :default-size="0.5" :resize-trigger-size="0">
     <template #1>
-      <n-menu
-        v-model:value="activeKey"
-        mode="horizontal"
-        :options="menuOptions"
-        responsive
-        @update:value="handleUpdateValue"
-        style="height: 100%;"
-      />
+      <n-space
+        justify="start"
+        style="height: 100%; align-items: center; padding-left: 5px"
+      >
+        <n-avatar
+          size="small"
+          round
+          style="margin-top: 5px"
+          src="/src/assets/avatar/logo.png"
+        />
+        <n-space style="margin-left: 5px">
+          <n-text
+            style="font-size: 20px; font-weight: bold; font-style: italic"
+            class="font-lato"
+            >Laogao</n-text
+          >
+        </n-space>
+      </n-space>
     </template>
     <template #2>
       <n-space
         justify="end"
         style="height: 100%; align-items: center; padding-right: 10px"
       >
+        <n-menu
+          v-model:value="activeKey"
+          mode="horizontal"
+          :options="menuOptions"
+          responsive
+          @update:value="handleUpdateValue"
+          style="height: 100%"
+        />
         <slot></slot>
       </n-space>
     </template>
@@ -27,9 +45,7 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import type { MenuOption } from "naive-ui";
 // import { RouterLink } from "vue-router";
-import {
-  HomeOutline as HomeIcon,
-} from "@vicons/ionicons5";
+import { HomeOutline as HomeIcon } from "@vicons/ionicons5";
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -46,6 +62,7 @@ const menuOptions: MenuOption[] = [
 ];
 // const message = useMessage();
 function handleUpdateValue(key: string, item: MenuOption) {
+  console.log(key, item);
   // message.info(`[onUpdate:value]: ${JSON.stringify(key)}`);
   // message.info(`[onUpdate:value]: ${JSON.stringify(item)}`);
 }
