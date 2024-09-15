@@ -1,12 +1,15 @@
 <template>
   <div class="something-box">
     <n-space vertical>
-      <n-card hoverable :style="{ backgroundColor: color.cardColor }">
-        <div style="font-size: 24px; font-weight: bold">关于我</div>
+      <n-card
+        hoverable
+        :style="{ backgroundColor: color.cardColor, textAlign: 'left' }"
+        title="关于我"
+      >
         <n-avatar
           size="large"
           round
-          style="margin: 15px"
+          style="margin: 0 0 15px 0"
           src="/src/assets/avatar/logo.png"
         />
         <n-descriptions
@@ -18,6 +21,22 @@
             {{ item.value }}
           </n-descriptions-item>
         </n-descriptions>
+      </n-card>
+      <n-card
+        hoverable
+        :style="{ backgroundColor: color.cardColor, textAlign: 'left' }"
+        title="生活轨迹"
+      >
+        <n-timeline>
+          <n-timeline-item
+            v-for="item in timeline"
+            :type="item.type"
+            :title="item.title"
+            :content="item.content"
+            :time="item.time"
+            line-type="dashed"
+          />
+        </n-timeline>
       </n-card>
     </n-space>
   </div>
@@ -54,8 +73,27 @@ const userInfo = ref([
   },
   {
     label: "说点什么",
-    value:
-      "我是个平凡的人，只是喜欢做一些自己喜欢的事，仅此而已🤪🤪🤪",
+    value: "我是个平凡的人，只是喜欢做一些自己喜欢的事，仅此而已🤪🤪🤪",
+  },
+]);
+const timeline = ref<any>([
+  {
+    type: "success",
+    title: "刘聪 回到2000 演唱会",
+    content: "这天我们一起去看了刘聪的演唱会",
+    time: "2024-08-17 19:00",
+  },
+  {
+    type: "warning",
+    title: "中秋节",
+    content: "我们一起过中秋节",
+    time: "2024-09-17 12:00",
+  },
+  {
+    type: "warning",
+    title: "杨和苏演唱会",
+    content: "这天我们一起去看杨和苏的演唱会",
+    time: "2024-09-28 19:00",
   },
 ]);
 </script>

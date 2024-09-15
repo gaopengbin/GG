@@ -18,12 +18,14 @@
               <n-icon :component="Sunny" />
             </template>
           </n-switch>
+          <RouterLink to="/">首页</RouterLink>
+          <RouterLink to="/arcticle">文章</RouterLink>
         </Header>
       </n-layout-header>
       <n-layout-content
         content-style="height:96vh;background-color: transparent;"
       >
-        <Home />
+        <RouterView />
       </n-layout-content>
     </n-layout>
     <div class="background"></div>
@@ -33,7 +35,7 @@
 import { ref } from "vue";
 import { GlobalTheme, GlobalThemeOverrides, darkTheme } from "naive-ui";
 import Header from "./views/home/header.vue";
-import Home from "./views/home/index.vue";
+// import Home from "./views/home/index.vue";
 import Sunset from "./assets/wallpaper/sunset.png";
 import Night from "./assets/wallpaper/night.png";
 import { Sunny, Moon } from "@vicons/ionicons5";
