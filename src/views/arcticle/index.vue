@@ -1,5 +1,8 @@
 <template>
-  <div class="arcticle" :style="{ backgroundColor: color.cardColor, textAlign: 'left' }">
+  <div
+    class="arcticle"
+    :style="{ backgroundColor: color.cardColor, textAlign: 'left' }"
+  >
     <n-h2>h2 标签</n-h2>
     <n-p>
       《且听风吟》是日本作家村上春树的第一本小说。它首次出现在 1979 年 6
@@ -7,11 +10,13 @@
       Kazuki Ōmori 改编成电影，并于 1981 年由艺术剧院协会发行。1987
       年被阿尔弗雷德伯恩鲍姆译成英文。
     </n-p>
+    <Map />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useThemeVars } from 'naive-ui';
+import { useThemeVars } from "naive-ui";
+import Map from "../map/index.vue";
 
 const color = useThemeVars();
 </script>
