@@ -45,7 +45,10 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import type { MenuOption } from "naive-ui";
 // import { RouterLink } from "vue-router";
-import { HomeOutline as HomeIcon } from "@vicons/ionicons5";
+import { BicycleOutline, BookOutline, HomeOutline as HomeIcon } from "@vicons/ionicons5";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -58,11 +61,25 @@ const menuOptions: MenuOption[] = [
     label: "首页",
     key: "home",
     icon: renderIcon(HomeIcon),
+    path: "/",
   },
+  {
+    label: "文章",
+    key: "about",
+    icon: renderIcon(BookOutline),
+    path: "/article",
+  },
+  {
+    label: "出行",
+    key: "about",
+    icon: renderIcon(BicycleOutline),
+    path: "/plan",
+  }
 ];
 // const message = useMessage();
-function handleUpdateValue(key: string, item: MenuOption) {
+function handleUpdateValue(key: string, item: any) {
   console.log(key, item);
+  router.push(item.path);
   // message.info(`[onUpdate:value]: ${JSON.stringify(key)}`);
   // message.info(`[onUpdate:value]: ${JSON.stringify(item)}`);
 }

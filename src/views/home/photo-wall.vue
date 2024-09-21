@@ -32,19 +32,19 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
+// import axios from "axios";
 import { useThemeVars } from "naive-ui";
 import { ref } from "vue";
 const themeVars = useThemeVars();
 const photoList = ref<any>([]);
 const getRandomPhoto = async (i: number) => {
-  const res = await axios.get(
-    "https://api.btstu.cn/sjbz/api.php?lx=suiji&format=json"
-  );
-  photoList.value.push({ src: res.data.imgurl });
-  //   photoList.value.push({
-  //     src: "https://api.asxe.vip/scenery.php?index=" + i,
-  //   });
+  // const res = await axios.get(
+  //   "https://api.btstu.cn/sjbz/api.php?lx=suiji&format=json"
+  // );
+  // photoList.value.push({ src: res.data.imgurl });
+  photoList.value.push({
+    src: "https://api.asxe.vip/scenery.php?index=" + i,
+  });
 };
 const fetchPhoto = () => {
   photoList.value = [];

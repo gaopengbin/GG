@@ -6,6 +6,8 @@
     <n-layout style="width: 100vw; background-color: transparent">
       <n-layout-header style="height: 4vh; background-color: transparent">
         <Header>
+          <RouterLink to="/">首页</RouterLink>
+          <RouterLink to="/arcticle">文章</RouterLink>
           <n-switch
             v-model:value="active"
             size="medium"
@@ -18,8 +20,7 @@
               <n-icon :component="Sunny" />
             </template>
           </n-switch>
-          <RouterLink to="/">首页</RouterLink>
-          <RouterLink to="/arcticle">文章</RouterLink>
+      
         </Header>
       </n-layout-header>
       <n-layout-content
@@ -58,8 +59,14 @@ const handleChange = (value: boolean) => {
   value ? (theme.value = darkTheme) : (theme.value = null);
   let background: any = document.querySelector(".background");
   if (value) {
+    if(window.map){
+      window.map.setMapStyle("amap://styles/darkblue");
+    }
     background.style.backgroundImage = `url(${Night})`;
   } else {
+    if(window.map){
+      window.map.setMapStyle("amap://styles/fresh");
+    }
     background.style.backgroundImage = `url(${Sunset})`;
   }
 };
