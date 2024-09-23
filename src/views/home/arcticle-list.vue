@@ -10,17 +10,17 @@
     :style="{ backgroundColor: color.cardColor }"
     v-for="item in arcticleList"
   >
-    <!-- <template #header-extra> #header-extra </template> -->
+    <template #header-extra>
+      <n-button type="success" dashed @click="goDetail(item)">
+        查看详情
+      </n-button>
+    </template>
     <n-grid x-gap="12" :cols="2">
-      <n-gi>
-        <n-image
-          :src="item.cover"
-          fit="cover"
-          style="width: 100%; height: 150px"
-        />
+      <n-gi :span="1">
+        <n-image :src="item.cover" fit="cover" width="100%" />
       </n-gi>
-      <n-gi>
-        {{ item.content }}
+      <n-gi :span="1">
+        {{ item.description }}
       </n-gi>
     </n-grid>
 
@@ -32,34 +32,38 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useThemeVars } from "naive-ui";
+import { useRouter } from "vue-router";
+import { usePlansStore } from "../../store";
+const planStore = usePlansStore();
+
+const router = useRouter();
 const color = useThemeVars();
 console.log(color.value);
-const arcticleList = ref([
-  {
-    title: "Vue3",
-    cover: "/src/assets/wallpaper/door.png",
-    content: "Vue3是一个前端框架",
-  },
-  {
-    title: "React",
-    cover: "/src/assets/wallpaper/dragon.png",
-    content: "React是一个前端框架",
-  },
-  {
-    title: "Angular",
-    cover: "/src/assets/wallpaper/moon.png",
-    content: "Angular是一个前端框架",
-  },
-]);
+
+const arcticleList = ref<any>([]);
+
+fetch("./mock/plan.json")
+  .then((res) => res.json())
+  .then((res) => {
+    arcticleList.value = res;
+  });
+
+const goDetail = (item: any) => {
+  console.log("goDetail", item);
+  planStore.setCurrentPlan(item);
+  router.push({
+    path: "/planDetail",
+  });
+};
 </script>
 
 <style scoped>
 .arcticle-box {
-  margin: 10px;
-  padding: 10px;
+  margin: 0px;
+  padding: 0px;
   border: 1px solid #e0e0e081;
   border-radius: 5px;
-  width: 60vw;
+  width: 100%;
   text-align: left;
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <n-space>
+  <n-flex vertical>
     <n-card
       title="出行规划"
       :style="{
         backgroundColor: color.cardColor,
         textAlign: 'left',
-        width: '20vw',
         margin: '10px',
         maxHeight: '90vh',
         overflow: 'auto',
+        width: 'auto',
       }"
     >
       <n-tag>总时间：{{ formatTime(totalTime()) }}</n-tag>
@@ -32,14 +32,9 @@
               v-model:value="item.time"
               value-format="yyyy/M/d HH:mm:ss"
               type="datetime"
+              :disabled="true"
             />
-            <n-auto-complete
-              v-model:value="item.address"
-              :options="options"
-              placeholder="地点"
-              clearable
-              @update:value="handleUpdateValue"
-            />
+            <n-tag>{{ item.address }}</n-tag>
             <n-select
               v-model:value="item.way"
               placeholder="方式"
@@ -56,23 +51,19 @@
               type="info"
               @click="pathPlan(index)"
               v-show="index < plan.length - 1"
-              >路线规划</n-button
+              >路线查看</n-button
             >
           </n-flex>
         </n-timeline-item>
       </n-timeline>
-      <n-flex vertical>
-        <n-button type="info" @click="addNode">添加目的地</n-button>
-        <n-button type="success" @click="finish">规划完毕</n-button>
-      </n-flex>
     </n-card>
     <n-card
       title="路线规划"
       :style="{
         backgroundColor: color.cardColor,
         textAlign: 'left',
-        width: '20vw',
         margin: '10px',
+        width: 'auto',
       }"
     >
       <div id="my-panel" style="max-height: 80vh; overflow: auto"></div>
@@ -82,58 +73,34 @@
       :style="{
         backgroundColor: color.cardColor,
         textAlign: 'left',
-        width: '50vw',
         margin: '10px',
+        width: 'auto',
       }"
     >
       <Map />
     </n-card>
-  </n-space>
+  </n-flex>
 </template>
 
 <script setup lang="ts">
-import {
-  Car,
-  Bicycle,
-  Walk,
-  Bus,
-} from "@vicons/ionicons5";
+import { usePlansStore } from "../../store";
+const planStore = usePlansStore();
+
+console.log(planStore.getCurrentPlan);
+import { Car, Bicycle, Walk, Bus } from "@vicons/ionicons5";
 import { useThemeVars } from "naive-ui";
 import { ref } from "vue";
 import Map from "../map/index.vue";
 const color = useThemeVars();
-// 输入提示的数据
-const options = ref<any>([]);
 // 出行方式
 const goWays = ref([
-  { label: "自驾", value: "driving" },
+  { label: "自驾/打车", value: "driving" },
   { label: "公交地铁", value: "transfer" },
   { label: "步行", value: "walking" },
   { label: "骑行", value: "riding" },
 ]);
 
-const handleUpdateValue = (value: string) => {
-  console.log(value);
-  //根据关键字进行搜索 keyword 为搜索的关键词
-  window.autoComplete.search(value, function (status: string, result: any) {
-    //搜索成功时，result 即是对应的匹配数据
-    console.log(status, result);
-    if (status === "error") return;
-    options.value = result.tips.map((item: any) => {
-      return {
-        value: item.name,
-        label: item.name,
-      };
-    });
-  });
-};
 const pathPlan = (index: number) => {
-  console.log(
-    "路线规划",
-    plan.value[index].address,
-    plan.value[index + 1].address,
-    plan.value[index].way
-  );
   const way = plan.value[index].way;
   (window as any)[way].search(
     [
@@ -155,31 +122,7 @@ const pathPlan = (index: number) => {
     }
   );
 };
-const plan = ref([
-  {
-    title: "出发",
-    address: "北京",
-    // time: '2024/09/23 14:46:44',
-    time: new Date().getTime(),
-    way: "transfer",
-    wayLength: 0,
-    wayTime: "0分钟",
-    waySeconds: 0,
-  },
-]);
-console.log(plan.value[0].time);
-const addNode = () => {
-  plan.value.push({
-    title: "下一站",
-    address: "",
-    time: new Date().getTime(),
-    // time: "2021-10-02 08:00",
-    way: "transfer",
-    wayLength: 0,
-    wayTime: "0分钟",
-    waySeconds: 0,
-  });
-};
+const plan = planStore.getCurrentPlan?.content;
 
 const formatTime = (second: number) => {
   const d = Math.floor(second / 86400);
@@ -193,22 +136,9 @@ const formatTime = (second: number) => {
 };
 
 const totalTime = () => {
-  return plan.value.reduce((pre, cur) => pre + cur.waySeconds, 0);
+  return plan.value.reduce((pre: any, cur: any) => pre + cur.waySeconds, 0);
 };
 
-const getPlan = () => {
-  const planStr = localStorage.getItem("plan");
-  if (planStr) {
-    plan.value = JSON.parse(planStr);
-  }
-};
-
-getPlan();
-
-const finish = () => {
-  console.log(plan.value);
-  localStorage.setItem("plan", JSON.stringify(plan.value));
-};
 </script>
 
 <style>

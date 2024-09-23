@@ -6,8 +6,6 @@
     <n-layout style="width: 100vw; background-color: transparent">
       <n-layout-header style="height: 4vh; background-color: transparent">
         <Header>
-          <RouterLink to="/">首页</RouterLink>
-          <RouterLink to="/arcticle">文章</RouterLink>
           <n-switch
             v-model:value="active"
             size="medium"

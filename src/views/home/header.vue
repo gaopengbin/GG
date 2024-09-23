@@ -1,5 +1,5 @@
 <template>
-  <n-split :default-size="0.5" :resize-trigger-size="0">
+  <n-split :default-size="0.4" :resize-trigger-size="0">
     <template #1>
       <n-space
         justify="start"
@@ -24,6 +24,7 @@
       <n-space
         justify="end"
         style="height: 100%; align-items: center; padding-right: 10px"
+        :wrap="false"
       >
         <n-menu
           v-model:value="activeKey"
@@ -65,13 +66,13 @@ const menuOptions: MenuOption[] = [
   },
   {
     label: "文章",
-    key: "about",
+    key: "article",
     icon: renderIcon(BookOutline),
     path: "/article",
   },
   {
     label: "出行",
-    key: "about",
+    key: "plan",
     icon: renderIcon(BicycleOutline),
     path: "/plan",
   }

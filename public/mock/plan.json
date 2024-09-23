@@ -1,0 +1,36 @@
+[
+  {
+    "title": "Plan 1",
+    "cover": "https://api.asxe.vip/scenery.php",
+    "description": "先去雍和宫，再去看杨和苏",
+    "content": [
+      {
+        "title": "出发",
+        "address": "中天创业园(西北门)",
+        "time": 1727076201172,
+        "way": "transfer",
+        "wayLength": 24860,
+        "wayTime": "1小时16分钟21秒",
+        "waySeconds": 4581
+      },
+      {
+        "title": "下一站",
+        "address": "雍和宫",
+        "time": 1727076208759,
+        "way": "driving",
+        "wayLength": 8520,
+        "wayTime": "0小时19分钟55秒",
+        "waySeconds": 1195
+      },
+      {
+        "title": "下一站",
+        "address": "国家体育馆",
+        "time": 1727076209942,
+        "way": "transfer",
+        "wayLength": 0,
+        "wayTime": "0分钟",
+        "waySeconds": 0
+      }
+    ]
+  }
+]

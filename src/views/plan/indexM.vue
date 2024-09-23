@@ -1,14 +1,14 @@
 <template>
-  <n-space>
+  <n-flex vertical>
     <n-card
       title="出行规划"
       :style="{
         backgroundColor: color.cardColor,
         textAlign: 'left',
-        width: '20vw',
         margin: '10px',
         maxHeight: '90vh',
         overflow: 'auto',
+        width: 'auto',
       }"
     >
       <n-tag>总时间：{{ formatTime(totalTime()) }}</n-tag>
@@ -71,8 +71,8 @@
       :style="{
         backgroundColor: color.cardColor,
         textAlign: 'left',
-        width: '20vw',
         margin: '10px',
+        width: 'auto',
       }"
     >
       <div id="my-panel" style="max-height: 80vh; overflow: auto"></div>
@@ -82,22 +82,17 @@
       :style="{
         backgroundColor: color.cardColor,
         textAlign: 'left',
-        width: '50vw',
         margin: '10px',
+        width: 'auto',
       }"
     >
       <Map />
     </n-card>
-  </n-space>
+  </n-flex>
 </template>
 
 <script setup lang="ts">
-import {
-  Car,
-  Bicycle,
-  Walk,
-  Bus,
-} from "@vicons/ionicons5";
+import { Car, Bicycle, Walk, Bus } from "@vicons/ionicons5";
 import { useThemeVars } from "naive-ui";
 import { ref } from "vue";
 import Map from "../map/index.vue";
