@@ -86,7 +86,7 @@
         margin: '10px',
       }"
     >
-      <Map />
+      <Map style="height: 80vh"/>
     </n-card>
   </n-space>
 </template>
@@ -193,7 +193,12 @@ const formatTime = (second: number) => {
 };
 
 const totalTime = () => {
-  return plan.value.reduce((pre, cur) => pre + cur.waySeconds, 0);
+  try {
+    return plan.value.reduce((pre: any, cur: any) => pre + cur.waySeconds, 0);
+  } catch (error) {
+    return 0;
+  }
+  // return plan.value.reduce((pre, cur) => pre + cur.waySeconds, 0);
 };
 
 const getPlan = () => {

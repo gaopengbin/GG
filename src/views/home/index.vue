@@ -59,6 +59,7 @@ import arcticleList from "./arcticle-list.vue";
 import something from "./something.vue";
 import { ref } from "vue";
 import axios from "axios";
+console.log('index');
 const jitang = ref<string>("");
 const getJitang = async () => {
   const res = await axios.get(
@@ -66,7 +67,7 @@ const getJitang = async () => {
   );
   jitang.value = res.data.text;
 };
-getJitang();
+// getJitang();
 </script>
 
 <style scoped>

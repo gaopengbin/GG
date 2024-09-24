@@ -9,7 +9,7 @@
           size="small"
           round
           style="margin-top: 5px"
-          src="/src/assets/avatar/logo.png"
+          :src="Logo"
         />
         <n-space style="margin-left: 5px">
           <n-text
@@ -48,6 +48,7 @@ import type { MenuOption } from "naive-ui";
 // import { RouterLink } from "vue-router";
 import { BicycleOutline, BookOutline, HomeOutline as HomeIcon } from "@vicons/ionicons5";
 import { useRouter } from "vue-router";
+import Logo from "@/assets/avatar/logo.png";
 
 const router = useRouter();
 

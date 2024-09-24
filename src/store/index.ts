@@ -19,5 +19,6 @@ export const usePlansStore = defineStore('plans', {
         setCurrentPlan(plan: any) {
             this.currentPlan = plan
         }
-    }
+    },
+    persist: true
 })

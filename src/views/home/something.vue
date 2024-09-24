@@ -6,12 +6,7 @@
         :style="{ backgroundColor: color.cardColor, textAlign: 'left' }"
         title="关于我"
       >
-        <n-avatar
-          size="large"
-          round
-          style="margin: 0 0 15px 0"
-          src="/src/assets/avatar/logo.png"
-        />
+        <n-avatar size="large" round style="margin: 0 0 15px 0" :src="Logo" />
         <n-descriptions
           label-placement="left"
           :column="2"
@@ -45,6 +40,7 @@
 <script setup lang="ts">
 import { useThemeVars } from "naive-ui";
 import { ref } from "vue";
+import Logo from "@/assets/avatar/logo.png";
 const color = useThemeVars();
 const userInfo = ref([
   {

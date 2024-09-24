@@ -1,12 +1,12 @@
 <template>
   <div style="width: 80vw">
-    <n-grid x-gap="12" :cols="2">
+    <n-grid x-gap="12" :cols="1">
       <n-gi>
-        <n-carousel draggable autoplay style="width: 40vw; height: 280px">
+        <n-carousel draggable autoplay style="width: 80vw; height: 280px">
           <img class="carousel-img" v-for="item in photoList" :src="item.src" />
         </n-carousel>
       </n-gi>
-      <n-gi>
+      <!-- <n-gi>
         <n-image-group>
           <n-space :size="2">
             <n-image
@@ -17,7 +17,7 @@
             />
           </n-space>
         </n-image-group>
-      </n-gi>
+      </n-gi> -->
     </n-grid>
     <div
       :style="{
@@ -48,7 +48,7 @@ const getRandomPhoto = async (i: number) => {
 };
 const fetchPhoto = () => {
   photoList.value = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 5; i++) {
     getRandomPhoto(i);
   }
 };
