@@ -1,6 +1,7 @@
 <template>
   <n-space>
     <n-card
+    type="segment"
       title="出行规划"
       :style="{
         backgroundColor: color.cardColor,
@@ -63,7 +64,7 @@
       </n-timeline>
       <n-flex vertical>
         <n-button type="info" @click="addNode">添加目的地</n-button>
-        <n-button type="success" @click="finish">规划完毕</n-button>
+        <n-button type="success" @click="showModal = true">规划完毕</n-button>
       </n-flex>
     </n-card>
     <n-card
@@ -86,21 +87,69 @@
         margin: '10px',
       }"
     >
-      <Map style="height: 80vh"/>
+      <Map style="height: 80vh" />
     </n-card>
   </n-space>
+  <n-modal :show="showModal">
+    <n-card
+      style="width: 600px"
+      title="保存计划"
+      size="huge"
+      :bordered="false"
+      role="dialog"
+      aria-modal="true"
+    >
+      <n-form
+        ref="formRef"
+        :model="model"
+        :rules="rules"
+        label-placement="left"
+        label-width="auto"
+        require-mark-placement="right-hanging"
+        size="medium"
+        :style="{
+          maxWidth: '640px',
+        }"
+      >
+        <n-form-item label="标题" path="inputValue">
+          <n-input v-model:value="model.title" placeholder="请输入标题" />
+        </n-form-item>
+        <n-form-item label="描述" path="textareaValue">
+          <n-input
+            v-model:value="model.description"
+            placeholder="请输入描述信息"
+            type="textarea"
+            :autosize="{
+              minRows: 3,
+              maxRows: 5,
+            }"
+          />
+        </n-form-item>
+        <n-space justify="center">
+          <n-button type="primary" @click="showModal = false"> 取消 </n-button>
+          <n-button type="success" @click="addPlan"> 保存 </n-button>
+        </n-space>
+      </n-form>
+    </n-card>
+  </n-modal>
 </template>
 
 <script setup lang="ts">
-import {
-  Car,
-  Bicycle,
-  Walk,
-  Bus,
-} from "@vicons/ionicons5";
+import { Car, Bicycle, Walk, Bus } from "@vicons/ionicons5";
 import { useThemeVars } from "naive-ui";
 import { ref } from "vue";
 import Map from "../map/index.vue";
+import { planAPI } from "@/api/plan";
+const showModal = ref(false);
+const model = ref({
+  title: "",
+  cover: "https://api.asxe.vip/scenery.php",
+  description: "",
+});
+const rules = ref({
+  title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+  description: [{ required: true, message: "请输入描述", trigger: "blur" }],
+});
 const color = useThemeVars();
 // 输入提示的数据
 const options = ref<any>([]);
@@ -210,8 +259,20 @@ const getPlan = () => {
 
 getPlan();
 
-const finish = () => {
+const addPlan = () => {
   console.log(plan.value);
+  const planData = {
+    title: model.value.title,
+    cover: model.value.cover,
+    description: model.value.description,
+    content: JSON.stringify(plan.value),
+  };
+  planAPI.addPlan(planData).then((res: any) => {
+    console.log(res);
+    if (res.status === 200) {
+      showModal.value = false;
+    }
+  });
   localStorage.setItem("plan", JSON.stringify(plan.value));
 };
 </script>

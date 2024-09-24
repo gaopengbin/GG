@@ -4,7 +4,7 @@
     :theme-overrides="theme === null ? lightThemeOverrides : darkThemeOverrides"
   >
     <n-layout style="width: 100vw; background-color: transparent">
-      <n-layout-header style="height: 4vh; background-color: transparent">
+      <n-layout-header style="height: 5vh; background-color: transparent">
         <Header>
           <n-switch
             v-model:value="active"
@@ -22,7 +22,7 @@
         </Header>
       </n-layout-header>
       <n-layout-content
-        content-style="height:96vh;background-color: transparent;"
+        content-style="height:95vh;background-color: transparent;"
       >
         <RouterView />
       </n-layout-content>

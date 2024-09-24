@@ -65,12 +65,12 @@ const menuOptions: MenuOption[] = [
     icon: renderIcon(HomeIcon),
     path: "/",
   },
-  {
-    label: "文章",
-    key: "article",
-    icon: renderIcon(BookOutline),
-    path: "/article",
-  },
+  // {
+  //   label: "文章",
+  //   key: "article",
+  //   icon: renderIcon(BookOutline),
+  //   path: "/article",
+  // },
   {
     label: "出行",
     key: "plan",

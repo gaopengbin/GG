@@ -23,7 +23,12 @@
     "noFallthroughCasesInSwitch": true,
     "types": [
       "naive-ui/volar"
-    ]
+    ],
+    /* Paths */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "src/**/*.ts",

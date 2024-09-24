@@ -7,7 +7,7 @@
       footer: 'soft',
     }"
     class="arcticle-box"
-    :style="{ backgroundColor: color.cardColor }"
+    :style="{ backgroundColor: color.cardColor,marginBottom: '10px' }"
     v-for="item in arcticleList"
   >
     <template #header-extra>
@@ -35,6 +35,7 @@ import { useThemeVars } from "naive-ui";
 import { useRouter } from "vue-router";
 import { usePlansStore } from "../../store";
 const planStore = usePlansStore();
+import { planAPI } from "../../api/plan";
 
 const router = useRouter();
 const color = useThemeVars();
@@ -42,11 +43,19 @@ console.log(color.value);
 
 const arcticleList = ref<any>([]);
 
-fetch("./mock/plan.json")
-  .then((res) => res.json())
-  .then((res) => {
-    arcticleList.value = res;
+// fetch("./mock/plan.json")
+//   .then((res) => res.json())
+//   .then((res) => {
+//     arcticleList.value = res;
+//   });
+
+planAPI.getPlan().then((res) => {
+  console.log(res);
+  res.data.forEach((item: any) => {
+    item.content = JSON.parse(item.content);
   });
+  arcticleList.value = res.data;
+});
 
 const goDetail = (item: any) => {
   console.log("goDetail", item);

@@ -80,7 +80,7 @@ const timeline = ref<any>([
     time: "2024-08-17 19:00",
   },
   {
-    type: "warning",
+    type: "success",
     title: "中秋节",
     content: "我们一起过中秋节",
     time: "2024-09-17 12:00",
