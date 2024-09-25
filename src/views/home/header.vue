@@ -46,7 +46,7 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import type { MenuOption } from "naive-ui";
 // import { RouterLink } from "vue-router";
-import { BicycleOutline, BookOutline, HomeOutline as HomeIcon } from "@vicons/ionicons5";
+import { BicycleOutline, HomeOutline as HomeIcon } from "@vicons/ionicons5";
 import { useRouter } from "vue-router";
 import Logo from "@/assets/avatar/logo.png";
 

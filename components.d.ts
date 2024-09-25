@@ -44,6 +44,7 @@ declare module 'vue' {
     NTimelineItem: typeof import('naive-ui')['NTimelineItem']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanFloatingPanel: typeof import('vant/es')['FloatingPanel']
     VanTab: typeof import('vant/es')['Tab']
     VanTabs: typeof import('vant/es')['Tabs']

@@ -12,7 +12,11 @@
     }"
   >
     <Map style="height: 90vh" />
-    <van-floating-panel>
+    <van-floating-panel
+      :content-draggable="false"
+      :anchors="anchors"
+      v-model:height="height"
+    >
       <van-tabs v-model:active="active" swipeable>
         <van-tab title="规划">
           <n-card
@@ -20,7 +24,7 @@
               backgroundColor: color.cardColor,
               textAlign: 'left',
               margin: '10px',
-              maxHeight: '90vh',
+              maxHeight: height - 80 + 'px',
               overflow: 'auto',
               width: 'auto',
             }"
@@ -159,6 +163,12 @@ const rules = ref({
 });
 const activeTab = ref("地图");
 const active = ref(0);
+const anchors = [
+  100,
+  Math.round(0.4 * window.innerHeight),
+  Math.round(0.9 * window.innerHeight),
+];
+const height = ref(anchors[0]);
 const color = useThemeVars();
 // 输入提示的数据
 const options = ref<any>([]);

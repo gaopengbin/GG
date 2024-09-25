@@ -10,5 +10,8 @@ declare global {
         walking: any;
         transfer: any;
         riding: any;
+        weather: any;
+        weatherInfo: any;
+        address: any;
     }
 }

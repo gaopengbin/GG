@@ -3,30 +3,32 @@
     :theme="theme"
     :theme-overrides="theme === null ? lightThemeOverrides : darkThemeOverrides"
   >
-    <n-layout style="width: 100vw; background-color: transparent">
-      <n-layout-header style="height: 5vh; background-color: transparent">
-        <Header>
-          <n-switch
-            v-model:value="active"
-            size="medium"
-            @update:value="handleChange"
-          >
-            <template #checked-icon>
-              <n-icon :component="Moon" />
-            </template>
-            <template #unchecked-icon>
-              <n-icon :component="Sunny" />
-            </template>
-          </n-switch>
-        </Header>
-      </n-layout-header>
-      <n-layout-content
-        content-style="height:95vh;background-color: transparent;"
-      >
-        <RouterView />
-      </n-layout-content>
-    </n-layout>
-    <div class="background"></div>
+    <van-config-provider :theme="themeM">
+      <n-layout style="width: 100vw; background-color: transparent">
+        <n-layout-header style="height: 5vh; background-color: transparent">
+          <Header>
+            <n-switch
+              v-model:value="active"
+              size="medium"
+              @update:value="handleChange"
+            >
+              <template #checked-icon>
+                <n-icon :component="Moon" />
+              </template>
+              <template #unchecked-icon>
+                <n-icon :component="Sunny" />
+              </template>
+            </n-switch>
+          </Header>
+        </n-layout-header>
+        <n-layout-content
+          content-style="height:95vh;background-color: transparent;"
+        >
+          <RouterView />
+        </n-layout-content>
+      </n-layout>
+      <div class="background"></div>
+    </van-config-provider>
   </n-config-provider>
 </template>
 <script setup lang="ts">
@@ -37,7 +39,7 @@ import { GlobalTheme, GlobalThemeOverrides, darkTheme } from "naive-ui";
 import Sunset from "./assets/wallpaper/sunset.png";
 import Night from "./assets/wallpaper/night.png";
 import { Sunny, Moon } from "@vicons/ionicons5";
-
+const themeM: any = ref("dark");
 const Header = defineAsyncComponent(() =>
   window.innerWidth > 750
     ? import("./views/home/header.vue")
@@ -65,11 +67,13 @@ const handleChange = (value: boolean) => {
     if (window.map) {
       window.map.setMapStyle("amap://styles/darkblue");
     }
+    themeM.value = "dark";
     background.style.backgroundImage = `url(${Night})`;
   } else {
     if (window.map) {
       window.map.setMapStyle("amap://styles/fresh");
     }
+    themeM.value = "light";
     background.style.backgroundImage = `url(${Sunset})`;
   }
 };

@@ -9,5 +9,5 @@ export const map = {
     return axios.get(
       "https://restapi.amap.com/v3/geocode/geo?key=" + key + "&address=" + address
     );
-  }
+  },
 };
