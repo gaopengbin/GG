@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
+    "@vant/auto-import-resolver": "^1.2.1",
     "@vicons/ionicons5": "^0.12.0",
     "axios": "^1.7.7",
     "naive-ui": "^2.39.0",
@@ -22,6 +23,7 @@
     "unocss-preset-chinese": "^0.3.3",
     "unplugin-auto-import": "^0.18.3",
     "unplugin-vue-components": "^0.27.4",
+    "vant": "^4.9.7",
     "vue": "^3.4.37",
     "vue-router": "4"
   },

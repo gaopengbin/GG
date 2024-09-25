@@ -18,7 +18,6 @@
               <n-icon :component="Sunny" />
             </template>
           </n-switch>
-      
         </Header>
       </n-layout-header>
       <n-layout-content
@@ -31,13 +30,19 @@
   </n-config-provider>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
 import { GlobalTheme, GlobalThemeOverrides, darkTheme } from "naive-ui";
-import Header from "./views/home/header.vue";
+// import Header from "./views/home/header.vue";
 // import Home from "./views/home/index.vue";
 import Sunset from "./assets/wallpaper/sunset.png";
 import Night from "./assets/wallpaper/night.png";
 import { Sunny, Moon } from "@vicons/ionicons5";
+
+const Header = defineAsyncComponent(() =>
+  window.innerWidth > 750
+    ? import("./views/home/header.vue")
+    : import("./viewsM/home/header.vue")
+);
 
 const lightThemeOverrides: GlobalThemeOverrides = {
   common: {
@@ -57,12 +62,12 @@ const handleChange = (value: boolean) => {
   value ? (theme.value = darkTheme) : (theme.value = null);
   let background: any = document.querySelector(".background");
   if (value) {
-    if(window.map){
+    if (window.map) {
       window.map.setMapStyle("amap://styles/darkblue");
     }
     background.style.backgroundImage = `url(${Night})`;
   } else {
-    if(window.map){
+    if (window.map) {
       window.map.setMapStyle("amap://styles/fresh");
     }
     background.style.backgroundImage = `url(${Sunset})`;

@@ -8,16 +8,22 @@
     }"
     class="arcticle-box"
     :style="{ backgroundColor: color.cardColor,marginBottom: '10px' }"
+    :header-style="{
+      padding: '2px 10px 2px 10px',
+    }"
+    :content-style="{
+      padding: '5px',
+    }"
     v-for="item in arcticleList"
   >
     <template #header-extra>
-      <n-button type="success" dashed @click="goDetail(item)">
+      <n-button type="success" text @click="goDetail(item)">
         查看详情
       </n-button>
     </template>
     <n-grid x-gap="12" :cols="2">
       <n-gi :span="1">
-        <n-image :src="item.cover" fit="cover" width="100%" />
+        <n-image :src="item.cover" fit="cover" width="300px" height="100px"/>
       </n-gi>
       <n-gi :span="1">
         {{ item.description }}

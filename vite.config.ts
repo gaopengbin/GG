@@ -4,6 +4,7 @@ import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import { VantResolver } from '@vant/auto-import-resolver';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,18 +20,20 @@ export default defineConfig({
           'useLoadingBar'
         ]
       }
-    ]
+    ],
+    resolvers: [VantResolver()]
   }),
   Components({
-    resolvers: [NaiveUiResolver()]
+    resolvers: [NaiveUiResolver(), VantResolver()]
   })
   ],
   base: './',
   server: {
-    port: 3000,
+    port: 4000,
     proxy:{
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://8.140.249.31:3000',
+        // target: 'http://localhost:3000',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')
       }
