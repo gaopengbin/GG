@@ -304,4 +304,7 @@ const addPlan = () => {
 .planTitle:hover {
   background: transparent !important;
 }
+.amap-content-body,.amap-lib-infowindow{
+  background-color: var(--van-floating-panel-background) !important;
+}
 </style>
