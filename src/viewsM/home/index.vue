@@ -19,7 +19,7 @@
         </n-text>
       </n-card>
       <div style="max-height: 800px; margin: 1vh 0">
-        <photoWallM />
+        <photoWall />
       </div>
 
       <n-card>
@@ -55,13 +55,15 @@
 </template>
 
 <script setup lang="ts">
-import photoWallM from "./photo-wall-M.vue";
+import photoWall from "./photo-wall.vue";
 import arcticleList from "./arcticle-list.vue";
 import something from "./something.vue";
 import { ref } from "vue";
 import { Bicycle, CashOutline as CashIcon } from "@vicons/ionicons5";
 import { useRouter } from "vue-router";
 import AMapLoader from "@amap/amap-jsapi-loader";
+import { usePlansStore } from "@/store";
+const store = usePlansStore();
 const router = useRouter();
 
 const btns = ref([
@@ -71,8 +73,9 @@ const btns = ref([
     path: "/plan",
   },
   {
-    title: "消费",
+    title: "去哪",
     icon: CashIcon,
+    path: "/findPOI",
   },
   {
     title: "学习",
@@ -98,7 +101,6 @@ const btns = ref([
 
 const jump = (btn: any) => {
   console.log("jump", btn);
-  // planStore.setCurrentPlan(item);
   if (btn.path) {
     router.push(btn.path);
   } else {
@@ -107,14 +109,13 @@ const jump = (btn: any) => {
 };
 const address = ref("");
 const weatherInfo = ref<any>({});
-(window as any)._AMapSecurityConfig = {
+window._AMapSecurityConfig = {
   securityJsCode: "649d0df720c956d7cafdc550a59dfbe0",
 };
 AMapLoader.load({
   key: "9ad9fa28a46a93b65425f18776b16fb9", // 申请好的Web端开发者Key，首次调用 load 时必填
   version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
   plugins: [
-    "AMap.Scale",
     "AMap.AutoComplete",
     "AMap.Driving",
     "AMap.Transfer",
@@ -125,6 +126,17 @@ AMapLoader.load({
   ], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
 }).then((AMap) => {
   window.weather = new AMap.Weather();
+  if (store.location) {
+    if (store.location.addressComponent) {
+      address.value =
+        store.location.addressComponent.district +
+        store.location.addressComponent.township;
+    } else {
+      address.value = store.location.city;
+    }
+    weatherInfo.value = store.weatherInfo;
+    return;
+  }
   const geolocation = new AMap.Geolocation({
     enableHighAccuracy: true, // 是否使用高精度定位，默认：true
     timeout: 10000, // 设置定位超时时间，默认：无穷大
@@ -147,24 +159,16 @@ AMapLoader.load({
     // data是具体的定位信息
     console.log(data);
     window.address = data.addressComponent;
+    store.location = data;
     address.value =
       data.addressComponent.district + data.addressComponent.township;
-    // window.weather.getLive(
-    //   data.addressComponent.adcode,
-    //   function (err: any, data: any) {
-    //     if (!err) {
-    //       console.log(data);
-    //       window.weatherInfo = data;
-    //       weatherInfo.value = data;
-    //     }
-    //   }
-    // );
     window.weather.getForecast(
       data.addressComponent.adcode,
       function (err: any, data: any) {
         if (!err) {
           console.log(data);
           window.weatherInfo = data;
+          store.weatherInfo = data;
           weatherInfo.value = data;
         }
       }
@@ -181,12 +185,14 @@ AMapLoader.load({
         if (status === "complete" && result.info === "OK") {
           // 查询成功，result即为当前所在城市信息
           // alert(result.city);
+          store.location = result;
           address.value = result.city;
           window.weather.getForecast(
             result.city,
             function (err: any, data: any) {
               if (!err) {
                 window.weatherInfo = data;
+                store.weatherInfo = data;
                 weatherInfo.value = data;
               }
             }

@@ -11,6 +11,8 @@ export const usePlansStore = defineStore('plans', {
             { id: 2, name: 'Pro', price: 20 },
         ],
         currentPlan: null as any,
+        weatherInfo: null as any,
+        location: null as any,
     }),
     getters: {
         getCurrentPlan: (state) => state.currentPlan

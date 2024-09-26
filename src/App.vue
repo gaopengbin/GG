@@ -34,8 +34,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
 import { GlobalTheme, GlobalThemeOverrides, darkTheme } from "naive-ui";
-// import Header from "./views/home/header.vue";
-// import Home from "./views/home/index.vue";
 import Sunset from "./assets/wallpaper/sunset.png";
 import Night from "./assets/wallpaper/night.png";
 import { Sunny, Moon } from "@vicons/ionicons5";

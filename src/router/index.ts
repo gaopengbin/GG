@@ -9,6 +9,8 @@ const routes = [
     path: "/plan", component: () => window.innerWidth > 750 ? import('../views/plan/index.vue') : import('../viewsM/plan/index.vue')
   },
   { name: "planDetail", path: "/planDetail", component: () => window.innerWidth > 750 ? import('../views/plan/detail.vue') : import('../viewsM/plan/detail.vue') },
+  { path: "/findPOI", component: () => window.innerWidth > 750 ? import('../views/plan/findPOI.vue') : import('../viewsM/plan/findPOI.vue') },
+  { path: "/addPerson", component: () => window.innerWidth > 750 ? import('../views/plan/addPerson.vue') : import('../viewsM/plan/addPerson.vue') },
 ];
 
 export const router = createRouter({

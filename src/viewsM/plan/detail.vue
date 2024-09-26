@@ -133,7 +133,6 @@ const pathPlan = (index: number) => {
         plan.value[index].wayTime = formatTime(result.routes[0].time);
         plan.value[index].waySeconds = result.routes[0].time;
       }
-      // activeTab.value = "地图";
       active.value = 1;
     }
   );
