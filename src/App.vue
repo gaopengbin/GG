@@ -37,6 +37,7 @@ import { GlobalTheme, GlobalThemeOverrides, darkTheme } from "naive-ui";
 import Sunset from "./assets/wallpaper/sunset.png";
 import Night from "./assets/wallpaper/night.png";
 import { Sunny, Moon } from "@vicons/ionicons5";
+import AMapLoader from "@amap/amap-jsapi-loader";
 const themeM: any = ref("dark");
 const Header = defineAsyncComponent(() =>
   window.innerWidth > 750
@@ -75,6 +76,25 @@ const handleChange = (value: boolean) => {
     background.style.backgroundImage = `url(${Sunset})`;
   }
 };
+
+window._AMapSecurityConfig = {
+  securityJsCode: "649d0df720c956d7cafdc550a59dfbe0",
+};
+AMapLoader.load({
+  key: "9ad9fa28a46a93b65425f18776b16fb9", // 申请好的Web端开发者Key，首次调用 load 时必填
+  version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+  plugins: [
+    "AMap.AutoComplete",
+    "AMap.Driving",
+    "AMap.Transfer",
+    "AMap.Walking",
+    "AMap.Riding",
+    "AMap.Weather",
+    "AMap.Geolocation",
+  ], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+}).then((AMap) => {
+  window.AMap = AMap;
+});
 </script>
 <style>
 html,

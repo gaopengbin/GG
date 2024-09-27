@@ -1,10 +1,19 @@
 <template>
   <van-form @submit="onSubmit">
     <van-cell-group inset>
+      <van-field
+        v-model="address"
+        name="地点"
+        label="地点"
+        placeholder="地点"
+        :rules="[{ required: true, message: '请填写地点' }]"
+        id="myaddress"
+      >
+      </van-field>
       <van-field name="checkboxGroup" label="参与人">
         <template #input>
           <n-select
-            v-model:value="value"
+            v-model:value="person"
             multiple
             :options="options"
             placeholder="选择参与人员"
@@ -17,7 +26,7 @@
           </n-select>
         </template>
       </van-field>
-      <van-field
+      <!-- <van-field
         v-model="type"
         is-link
         readonly
@@ -37,41 +46,80 @@
         <template #input>
           <van-slider v-model="distance" :min="1" :max="100" />
         </template>
-      </van-field>
+      </van-field> -->
     </van-cell-group>
     <div style="margin: 16px">
       <van-button round block type="primary" native-type="submit">
         开始计算
       </van-button>
     </div>
-    <Map style="height: 80vw; width: 90vw; margin: 5vw" />
+    <Map style="height: 60vh; width: 100vw; margin: 0vw; border-radius: 10px" />
   </van-form>
   <van-floating-panel
     :content-draggable="false"
     :anchors="anchors"
     v-model:height="height"
   >
-    <div
+    <!-- <div
       id="my-panel"
       :style="{ maxHeight: height - 80 + 'px', overflow: 'auto' }"
-    ></div>
+    ></div> -->
+    <van-list :style="{ maxHeight: height - 80 + 'px', overflow: 'auto' }">
+      <van-cell v-for="item in pathResults" :key="item">
+        <div class="poibox">
+          <div class="poi-pic">
+            <img :src="item.photos[0]?.url" alt="" />
+          </div>
+          <n-text>{{ item.name }}</n-text>
+          <div class="poi-info">{{ item.address }}</div>
+          <div class="poi-info" v-for="p in item.extension">
+            <n-tag>{{
+              `${p.name}:${p.wayTime}|${p.cost}元|打车:${p.taxi_cost}元`
+            }}</n-tag>
+          </div>
+        </div>
+      </van-cell>
+    </van-list>
   </van-floating-panel>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { usePlansStore } from "@/store";
-import { ref } from "vue";
+import { nextTick, ref } from "vue";
 import { personAPI } from "@/api/person";
 import Map from "../map/index.vue";
-const store = usePlansStore();
 const router = useRouter();
-console.log(store.location);
+const AMap = window.AMap;
 const jump = () => {
-  console.log("jump");
   router.push("/addPerson");
 };
-const value = ref([]);
+const address = ref("");
+let marker: any = null;
+nextTick(() => {
+  AMap.plugin("AMap.Autocomplete", function () {
+    var autoOptions = {
+      city: "全国",
+      input: "myaddress",
+    };
+    var autocomplete = new AMap.Autocomplete(autoOptions);
+
+    AMap.Event.addListener(autocomplete, "select", function (e: any) {
+      if (marker) {
+        window.map.remove(marker);
+      }
+      address.value = e.poi.name;
+      marker = new AMap.Marker({
+        position: e.poi.location,
+        title: e.poi.name,
+      });
+      window.map.add(marker);
+      window.map.setCenter(e.poi.location);
+      window.map.setZoom(17);
+      // person.value.position = [e.poi.location.lng, e.poi.location.lat];
+    });
+  });
+});
+const person = ref([]);
 const options = ref([]);
 const anchors = [
   100,
@@ -80,7 +128,6 @@ const anchors = [
 ];
 const height = ref(anchors[0]);
 personAPI.getPerson().then((res) => {
-  console.log(res);
   options.value = res.data.map((item: any) => {
     return {
       value: item,
@@ -111,15 +158,91 @@ let line: any = null;
 
 const onSubmit = () => {
   window.map.clearMap();
-  const AMap = window.AMap;
-  console.log(value.value, type.value);
+  console.log(person.value, type.value, address.value);
+  if (address.value) {
+    computePath();
+  } else {
+    computePOI();
+  }
+};
+const way = ref("transfer");
+const pathResults = ref<any>([]);
+// if(window.transfer)
+const computePath = () => {
+  (window as any)[way.value].opt.map = null;
+  (window as any)[way.value].opt.panel = "";
 
+  AMap.plugin("AMap.PlaceSearch", function () {
+    var placeSearch = new AMap.PlaceSearch({
+      //city 指定搜索所在城市，支持传入格式有：城市名、citycode 和 adcode
+      city: "全国",
+      extensions: "all",
+    });
+    placeSearch.search(address.value, function (status: any, result: any) {
+      //查询成功时，result 即对应匹配的 POI 信息
+      if (status === "complete" && result.info === "OK") {
+        let markers: any = [];
+        result.poiList.pois.forEach((item: any) => {
+          item.extension = [];
+          const marker = new AMap.Marker({
+            position: item.location,
+            title: item.name,
+          });
+          markers.push(marker);
+          window.map.add(marker);
+          person.value.forEach((p: any) => {
+            const positionA = p.position.split(",");
+            const positionB = item.location.toArray();
+            (window as any)[way.value].search(
+              positionA,
+              positionB,
+              function (status: any, result: any) {
+                if (status === "error") return;
+                if (status === "complete") {
+                  if (way.value === "transfer") {
+                    item.extension.push({
+                      name: p.name,
+                      wayLength: result.plans[0].distance,
+                      wayTime: formatTime(result.plans[0].time),
+                      cost: result.plans[0].cost,
+                      taxi_cost: result.taxi_cost,
+                    });
+                  } else {
+                    item.extension.push({
+                      name: p.name,
+                      wayLength: result.routes[0].distance,
+                      wayTime: formatTime(result.routes[0].time),
+                    });
+                  }
+                }
+              }
+            );
+          });
+        });
+        window.map.setFitView(markers);
+        pathResults.value = result.poiList.pois;
+      }
+    });
+  });
+};
+
+const formatTime = (second: number) => {
+  const d = Math.floor(second / 86400);
+  const h = Math.floor(second / 3600);
+  const m = Math.floor((second % 3600) / 60);
+  const s = Math.floor(second % 60);
+  if (d === 0) return `${h}小时${m}分钟${s}秒`;
+  if (h === 0) return `${m}分钟${s}秒`;
+  if (m === 0) return `${s}秒`;
+  return `${d}天${h}小时${m}分钟${s}秒`;
+};
+
+const computePOI = () => {
   //   计算一个合适的中心点，然后搜索周边的POI
-  let positions = value.value.map((item: any) => {
+  let positions = person.value.map((item: any) => {
     let position = item.position.split(",");
     return [Number(position[0]), Number(position[1])];
   });
-  console.log(positions);
 
   let cpoint = positions[0]; //中心点坐标
   let path: any = [];
@@ -159,7 +282,20 @@ const onSubmit = () => {
       distance.value * 1000,
       function (status: any, result: any) {
         //查询成功时，result 即对应匹配的 POI 信息
-        console.log(status, result);
+        window.map.getAllOverlays().forEach((item: any) => {
+          if (item.CLASS_NAME === "AMap.Marker") {
+            // 监听点击事件
+            item.on("click", function (e: any) {
+              console.log(e.target);
+              // window.map.clearInfoWindow();
+              // var infoWindow = new AMap.InfoWindow({
+              //   content: e.target.content,
+              //   offset: new AMap.Pixel(0, -30),
+              // });
+              // infoWindow.open(window.map, e.target.getPosition());
+            });
+          }
+        });
       }
     );
   });
@@ -170,5 +306,18 @@ const onSubmit = () => {
 .amap-content-body,
 .amap-lib-infowindow {
   background-color: var(--van-floating-panel-background) !important;
+}
+.poibox {
+  text-align: left;
+}
+.poi-pic {
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin: 4px;
+}
+.poi-pic img {
+  width: 100%;
+  height: 100%;
 }
 </style>

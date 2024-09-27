@@ -100,13 +100,6 @@ nextTick(() => {
 });
 
 const location = () => {
-  //   if (store.location) {
-  //     if (store.location.formattedAddress) {
-  //       person.value.address = store.location.formattedAddress;
-  //     } else {
-  //       person.value.address = store.location.city;
-  //     }
-  //   } else {
   const geolocation = new AMap.Geolocation({
     enableHighAccuracy: true, // 是否使用高精度定位，默认：true
     timeout: 10000, // 设置定位超时时间，默认：无穷大
@@ -155,7 +148,6 @@ const location = () => {
       });
     });
   }
-  //   }
 };
 
 const onSubmit = () => {
