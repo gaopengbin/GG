@@ -37,7 +37,7 @@
       <div style="max-height: 800px; margin-top: 15vh">
         <photoWall />
       </div>
-      <div style="height: 800px; margin-top: 10vh">
+      <div style="margin-top: 10vh">
         <n-grid x-gap="12" :cols="3">
           <n-gi span="2">
             <arcticleList />
@@ -48,7 +48,14 @@
         </n-grid>
       </div>
     </div>
-
+    <div class="beian">
+      <a href="https://beian.miit.gov.cn" target="_blank"
+        >豫ICP备2024091391号-1</a
+      >
+      <n-text>
+        Copyright © 2024 by Laogao
+      </n-text>
+    </div>
     <n-back-top :right="100" />
   </n-scrollbar>
 </template>
@@ -59,7 +66,7 @@ import arcticleList from "./arcticle-list.vue";
 import something from "./something.vue";
 import { ref } from "vue";
 import axios from "axios";
-console.log('index');
+console.log("index");
 const jitang = ref<string>("");
 const getJitang = async () => {
   const res = await axios.get(
@@ -75,5 +82,18 @@ const getJitang = async () => {
   margin-top: 10px;
   font-size: 16px;
   font-style: italic;
+}
+.beian {
+  text-align: center;
+  padding: 20px;
+  background-color: #1e1e1e;
+  font-family: sans-serif;
+  /* position: absolute; */
+  /* bottom: 10px;
+  right: 10px;
+  font-size: 12px; */
+}
+.beian a {
+  color: #fff;
 }
 </style>
