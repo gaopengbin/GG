@@ -13,6 +13,7 @@ export const usePlansStore = defineStore('plans', {
         currentPlan: null as any,
         weatherInfo: null as any,
         location: null as any,
+
     }),
     getters: {
         getCurrentPlan: (state) => state.currentPlan
@@ -21,6 +22,16 @@ export const usePlansStore = defineStore('plans', {
         setCurrentPlan(plan: any) {
             this.currentPlan = plan
         }
+    },
+    persist: true
+})
+
+export const useGlobalStore = defineStore('global', {
+    state: () => ({
+        currentBook: null as any,
+    }),
+    actions: {
+
     },
     persist: true
 })

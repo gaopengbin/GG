@@ -46,7 +46,7 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import type { MenuOption } from "naive-ui";
 // import { RouterLink } from "vue-router";
-import { BicycleOutline, HomeOutline as HomeIcon } from "@vicons/ionicons5";
+import { BicycleOutline, BookOutline, HomeOutline as HomeIcon } from "@vicons/ionicons5";
 import { useRouter } from "vue-router";
 import Logo from "@/assets/avatar/logo.png";
 
@@ -65,18 +65,24 @@ const menuOptions: MenuOption[] = [
     icon: renderIcon(HomeIcon),
     path: "/",
   },
+  {
+    label: "阅读",
+    key: "reader",
+    icon: renderIcon(BookOutline),
+    path: "/reader",
+  },
   // {
   //   label: "文章",
   //   key: "article",
   //   icon: renderIcon(BookOutline),
   //   path: "/article",
   // },
-  {
-    label: "出行",
-    key: "plan",
-    icon: renderIcon(BicycleOutline),
-    path: "/plan",
-  }
+  // {
+  //   label: "出行",
+  //   key: "plan",
+  //   icon: renderIcon(BicycleOutline),
+  //   path: "/plan",
+  // }
 ];
 // const message = useMessage();
 function handleUpdateValue(key: string, item: any) {

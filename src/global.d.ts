@@ -13,5 +13,7 @@ declare global {
         weather: any;
         weatherInfo: any;
         address: any;
+        ePub: any;
+        EPUBJS: any;
     }
 }
