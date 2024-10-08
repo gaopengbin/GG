@@ -49,12 +49,18 @@
       </div>
     </div>
     <div class="beian">
-      <a href="https://beian.miit.gov.cn" target="_blank"
-        >豫ICP备2024091391号-1</a
-      >
-      <n-text>
-        Copyright © 2024 by Laogao
-      </n-text>
+      <n-space justify="end">
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=11011402054365"
+          rel="noreferrer"
+          target="_blank"
+          ><img src="../../assets/备案图标.png" style="width: 16px;height: 16px;">京公网安备11011402054365</a
+        >
+        <a href="https://beian.miit.gov.cn" target="_blank"
+          >豫ICP备2024091391号-1</a
+        >
+        <n-text> Copyright © 2024 by Laogao </n-text>
+      </n-space>
     </div>
     <n-back-top :right="100" />
   </n-scrollbar>
@@ -95,5 +101,7 @@ const getJitang = async () => {
 }
 .beian a {
   color: #fff;
+  display: flex;
+  align-items: center;
 }
 </style>
