@@ -59,7 +59,7 @@ import photoWall from "./photo-wall.vue";
 import arcticleList from "./arcticle-list.vue";
 import something from "./something.vue";
 import { ref } from "vue";
-import { Bicycle, CashOutline as CashIcon } from "@vicons/ionicons5";
+import { Bicycle, BookOutline, CashOutline as CashIcon } from "@vicons/ionicons5";
 import { useRouter } from "vue-router";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import { usePlansStore } from "@/store";
@@ -78,8 +78,9 @@ const btns = ref([
     path: "/findPOI",
   },
   {
-    title: "学习",
-    icon: CashIcon,
+    title: "阅读",
+    icon: BookOutline,
+    path: "/reader",
   },
   {
     title: "娱乐",
