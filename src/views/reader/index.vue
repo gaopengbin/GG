@@ -3,14 +3,18 @@
     <n-upload @change="handleChange" :show-file-list="false"
       ><n-button type="primary">上传书籍（仅限EPUB格式）</n-button></n-upload
     >
-    <n-space style="margin-top: 10px;">
+    <n-space style="margin-top: 10px">
       <n-card
         hoverable
         v-for="item in books"
-        :title="item.title"
         @click="read(item.id)"
-        :header-style="{ width: '200px', padding: '10px' }"
+        :header-style="{ width: '200px', height: '40px', padding: '5px' }"
       >
+        <template #header>
+          <n-ellipsis style="max-width: 180px">
+            {{ item.title }}
+          </n-ellipsis>
+        </template>
         <template #cover>
           <img :src="item.cover" style="width: 200px; height: 300px" />
         </template>

@@ -114,7 +114,7 @@ onMounted(() => {
   console.log(id);
   bookAPI.getBookById(id).then((res) => {
     loadBook({
-      url: "/api" + res.data.url,
+      url: import.meta.env.VITE_API_URL + res.data.url,
       title: res.data.title,
     });
   });
@@ -128,7 +128,7 @@ watch(
     if (id) {
       bookAPI.getBookById(id).then((res) => {
         loadBook({
-          url: "/api" + res.data.url,
+          url: import.meta.env.VITE_API_URL + res.data.url,
           title: res.data.title,
         });
       });
