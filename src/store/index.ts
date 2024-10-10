@@ -29,6 +29,8 @@ export const usePlansStore = defineStore('plans', {
 export const useGlobalStore = defineStore('global', {
     state: () => ({
         currentBook: null as any,
+        currentContent: null as any,
+        styles: {} as any,
     }),
     actions: {
 

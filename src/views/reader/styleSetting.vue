@@ -55,28 +55,40 @@ const lineHeight = ref(24);
 const backgroundColor = ref("#f5f5f5");
 const setFontsize = (value: number) => {
   fontSize.value = value;
-  store.currentBook?.setStyle("font-size", `${fontSize.value}px`);
+  console.log(content);
+  // store.currentBook?.rendition.css("font-size", `${fontSize.value}px`);
+  store.currentContent.css("font-size", `${fontSize.value}px`);
 };
 const setFontFamily = (value: string) => {
   fontFamily.value = value;
-  store.currentBook?.setStyle("font-family", fontFamily.value);
+  store.currentBook?.rendition.css("font-family", fontFamily.value);
 };
 const setLineHeight = (value: number) => {
   lineHeight.value = value;
-  store.currentBook?.setStyle("line-height", `${lineHeight.value}px`);
+  store.currentBook?.rendition.css("line-height", `${lineHeight.value}px`);
 };
 const setBackgroundColor = (value: string) => {
   backgroundColor.value = value;
-  store.currentBook?.setStyle("background-color", backgroundColor.value);
+  store.currentBook?.rendition.css("background-color", backgroundColor.value);
 };
+let content: any;
 onMounted(() => {
-  fontSize.value = parseInt(store.currentBook?.settings.styles["font-size"]);
-  fontFamily.value = store.currentBook?.settings.styles["font-family"];
-  lineHeight.value = parseInt(
-    store.currentBook?.settings.styles["line-height"]
-  );
-  backgroundColor.value =
-    store.currentBook?.settings.styles["background-color"];
+  // store.currentBook.rendition.hooks.content.register(function (contents: any) {
+  //   console.log(contents);
+  //   content = contents;
+  //   console.log("content", content);
+  // contents.css("font-size", `${fontSize.value}px`);
+  // contents.css("font-family", fontFamily.value);
+  // contents.css("line-height", `${lineHeight.value}px`);
+  // contents.css("background-color", backgroundColor.value);
+  // });
+  // fontSize.value = parseInt(store.currentBook?.settings.styles["font-size"]);
+  // fontFamily.value = store.currentBook?.settings.styles["font-family"];
+  // lineHeight.value = parseInt(
+  //   store.currentBook?.settings.styles["line-height"]
+  // );
+  // backgroundColor.value =
+  //   store.currentBook?.settings.styles["background-color"];
 });
 </script>
 
