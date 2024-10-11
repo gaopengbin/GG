@@ -55,40 +55,30 @@ const lineHeight = ref(24);
 const backgroundColor = ref("#f5f5f5");
 const setFontsize = (value: number) => {
   fontSize.value = value;
-  console.log(content);
-  // store.currentBook?.rendition.css("font-size", `${fontSize.value}px`);
   store.currentContent.css("font-size", `${fontSize.value}px`);
+  store.styles.fontSize = `${fontSize.value}px`;
 };
 const setFontFamily = (value: string) => {
   fontFamily.value = value;
-  store.currentBook?.rendition.css("font-family", fontFamily.value);
+  store.currentContent.css("font-family", fontFamily.value);
+  store.styles.fontFamily = fontFamily.value;
 };
 const setLineHeight = (value: number) => {
   lineHeight.value = value;
-  store.currentBook?.rendition.css("line-height", `${lineHeight.value}px`);
+  store.currentContent.css("line-height", `${lineHeight.value}px`);
+  store.styles.lineHeight = `${lineHeight.value}px`;
 };
 const setBackgroundColor = (value: string) => {
   backgroundColor.value = value;
-  store.currentBook?.rendition.css("background-color", backgroundColor.value);
+  store.currentContent.css("background-color", backgroundColor.value);
+  store.styles.backgroundColor = backgroundColor.value;
 };
-let content: any;
 onMounted(() => {
-  // store.currentBook.rendition.hooks.content.register(function (contents: any) {
-  //   console.log(contents);
-  //   content = contents;
-  //   console.log("content", content);
-  // contents.css("font-size", `${fontSize.value}px`);
-  // contents.css("font-family", fontFamily.value);
-  // contents.css("line-height", `${lineHeight.value}px`);
-  // contents.css("background-color", backgroundColor.value);
-  // });
-  // fontSize.value = parseInt(store.currentBook?.settings.styles["font-size"]);
-  // fontFamily.value = store.currentBook?.settings.styles["font-family"];
-  // lineHeight.value = parseInt(
-  //   store.currentBook?.settings.styles["line-height"]
-  // );
-  // backgroundColor.value =
-  //   store.currentBook?.settings.styles["background-color"];
+  console.log(store.currentContent);
+  fontSize.value = parseInt(store.styles["fontSize"]) ?? 14;
+  fontFamily.value = store.styles["fontFamily"] ?? "楷体";
+  lineHeight.value = parseInt(store.styles["lineHeight"]) ?? 24;
+  backgroundColor.value = store.styles["backgroundColor"] ?? "#f5f5f5";
 });
 </script>
 

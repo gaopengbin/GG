@@ -31,6 +31,7 @@ export const useGlobalStore = defineStore('global', {
         currentBook: null as any,
         currentContent: null as any,
         styles: {} as any,
+        localBook: null as any,
     }),
     actions: {
 

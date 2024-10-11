@@ -28,7 +28,8 @@
     <n-drawer v-model:show="active" :default-width="502" resizable>
       <n-drawer-content>
         <template #header> {{ activeMenu }} </template>
-        <styleSetting v-show="activeMenu === '样式'" :book="book" />
+        <styleSetting v-if="activeMenu === '样式'" :book="book" />
+        <contents v-if="activeMenu === '目录'" />
         <!-- <template #footer>
           <n-button>Footer</n-button>
         </template> -->
@@ -42,6 +43,7 @@
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import { ReorderThree, Settings, Bookmark, Menu } from "@vicons/ionicons5";
 import styleSetting from "./styleSetting.vue";
+import contents from "./contents.vue";
 import { useGlobalStore } from "@/store";
 import { bookAPI } from "@/api/book";
 import { useRoute } from "vue-router";
@@ -54,7 +56,7 @@ const epub = window.ePub;
 // const EPUBJS = window.EPUBJS;
 let book: any = ref({});
 let rendition: any = ref({});
-const loadBook = (option: { url: string; title: string }) => {
+const loadBook = (option: { url: any; title: string }) => {
   book = epub(option.url, {
     // restore: true,
   });
@@ -66,13 +68,13 @@ const loadBook = (option: { url: string; title: string }) => {
   rendition = book.renderTo("viewer", {
     width: "100%",
     height: "90vh",
-    manager: "continuous",
-    flow: "paginated",
+    // manager: "continuous",
+    // flow: "paginated",
+    spread: "always",
   });
   console.log(rendition);
-  rendition.display().then((r: any) => {
-    console.log(r);
-  });
+  rendition.display();
+
   rendition.hooks.content.register(function (contents: any) {
     store.currentContent = contents;
     console.log(contents);
@@ -84,7 +86,42 @@ const loadBook = (option: { url: string; title: string }) => {
   });
   rendition.on("layout", function (layout: any) {
     let viewer: any = document.getElementById("viewer");
+    if (layout.spread) {
+      viewer.classList.remove("single");
+    } else {
+      viewer.classList.add("single");
+    }
+  });
+};
 
+const lookLocalBook = (book1: any) => {
+  book = book1;
+  store.currentBook = book;
+  console.log(book);
+  book.ready.then(() => {
+    loading.value = false;
+  });
+  rendition = book.renderTo("viewer", {
+    width: "100%",
+    height: "90vh",
+    // manager: "continuous",
+    // flow: "paginated",
+    spread: "always",
+  });
+  console.log(rendition);
+  rendition.display();
+
+  rendition.hooks.content.register(function (contents: any) {
+    store.currentContent = contents;
+    console.log(contents);
+    contents.css("font-size", "16px");
+    contents.css("font-family", "楷体");
+    contents.css("line-height", "24px");
+    contents.css("background-color", "#f5f5f5");
+    contents.css("padding", "10px");
+  });
+  rendition.on("layout", function (layout: any) {
+    let viewer: any = document.getElementById("viewer");
     if (layout.spread) {
       viewer.classList.remove("single");
     } else {
@@ -140,8 +177,17 @@ const getBook = (id: string) => {
   });
 };
 
+const getLocalBook = () => {
+  lookLocalBook(store.localBook);
+};
+
 onMounted(() => {
-  getBook(id);
+  console.log(id);
+  if (id != 0) {
+    getBook(id);
+  } else {
+    getLocalBook();
+  }
 });
 onUnmounted(() => {
   book && book.destroy();

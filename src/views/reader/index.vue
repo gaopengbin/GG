@@ -5,6 +5,9 @@
         <n-upload @change="handleChange" :show-file-list="false">
           <n-button type="primary">上传书籍（仅限EPUB格式）</n-button>
         </n-upload>
+        <n-upload @change="handleChangeLocal" :show-file-list="false">
+          <n-button type="primary">本地阅读（仅限EPUB格式）</n-button>
+        </n-upload>
         <n-form-item label="编辑" label-placement="left">
           <n-switch v-model:value="isEdit" />
         </n-form-item>
@@ -42,6 +45,8 @@ import { UploadFileInfo } from "naive-ui";
 import { ref } from "vue";
 import { bookAPI } from "@/api/book";
 import { useRouter } from "vue-router";
+import { useGlobalStore } from "@/store";
+const store = useGlobalStore();
 const router = useRouter();
 const isEdit = ref(false);
 const loading = ref(false);
@@ -68,6 +73,26 @@ const handleChange = async (options: {
     });
   });
 };
+
+const handleChangeLocal = async (options: {
+  fileList: UploadFileInfo[];
+  file: UploadFileInfo;
+}) => {
+  loading.value = true;
+  const file: any = options.file.file;
+  const formdata = new FormData();
+  formdata.append("content", file);
+  formdata.append("title", options.file.name);
+  formdata.append("url", "");
+
+  const book = new window.ePub();
+  book.open(await file.arrayBuffer(), "binary");
+
+  store.localBook = book;
+  loading.value = false;
+  router.push({ path: "/book/0" });
+};
+
 const read = (id: string) => {
   if (isEdit.value) return;
   router.push({ path: "/book/" + id });
