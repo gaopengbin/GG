@@ -73,24 +73,24 @@ const userInfo = ref([
   },
 ]);
 const timeline = ref<any>([
-  {
-    type: "success",
-    title: "刘聪 回到2000 演唱会",
-    content: "这天我们一起去看了刘聪的演唱会",
-    time: "2024-08-17 19:00",
-  },
-  {
-    type: "success",
-    title: "中秋节",
-    content: "我们一起过中秋节",
-    time: "2024-09-17 12:00",
-  },
-  {
-    type: "warning",
-    title: "杨和苏演唱会",
-    content: "这天我们一起去看杨和苏的演唱会",
-    time: "2024-09-28 19:00",
-  },
+  // {
+  //   type: "success",
+  //   title: "刘聪 回到2000 演唱会",
+  //   content: "这天我们一起去看了刘聪的演唱会",
+  //   time: "2024-08-17 19:00",
+  // },
+  // {
+  //   type: "success",
+  //   title: "中秋节",
+  //   content: "我们一起过中秋节",
+  //   time: "2024-09-17 12:00",
+  // },
+  // {
+  //   type: "warning",
+  //   title: "杨和苏演唱会",
+  //   content: "这天我们一起去看杨和苏的演唱会",
+  //   time: "2024-09-28 19:00",
+  // },
 ]);
 </script>
 

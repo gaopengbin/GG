@@ -7,7 +7,9 @@
       footer: 'soft',
     }"
     class="arcticle-box"
-    :style="{ backgroundColor: color.cardColor,marginBottom: '10px' }"
+    :header-style="{ padding: '5px 10px' }"
+    :content-style="{ padding: '0px' }"
+    :style="{ backgroundColor: color.cardColor,marginBottom: '10px',height:'200px',width:'500px' }"
     v-for="item in arcticleList"
   >
     <template #header-extra>
@@ -17,7 +19,7 @@
     </template>
     <n-grid x-gap="12" :cols="2">
       <n-gi :span="1">
-        <n-image :src="item.cover" fit="cover" width="100%" />
+        <n-image :src="item.cover" fit="cover" width="200" height="150"/>
       </n-gi>
       <n-gi :span="1">
         {{ item.description }}

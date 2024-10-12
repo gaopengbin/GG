@@ -34,12 +34,16 @@
           <div>{{ jitang }}</div>
         </div>
       </n-card>
-      <div style="max-height: 800px; margin-top: 15vh">
+
+      <!-- <div style="max-height: 800px; margin-top: 15vh">
         <photoWall />
-      </div>
+      </div> -->
       <div style="margin-top: 10vh">
         <n-grid x-gap="12" :cols="3">
-          <n-gi span="2">
+          <n-gi span="1">
+            <arcticleList />
+          </n-gi>
+          <n-gi span="1">
             <arcticleList />
           </n-gi>
           <n-gi span="1">
@@ -54,7 +58,10 @@
           href="https://beian.mps.gov.cn/#/query/webSearch?code=11011402054365"
           rel="noreferrer"
           target="_blank"
-          ><img src="../../assets/备案图标.png" style="width: 16px;height: 16px;">京公网安备11011402054365</a
+          ><img
+            src="../../assets/备案图标.png"
+            style="width: 16px; height: 16px"
+          />京公网安备11011402054365</a
         >
         <a href="https://beian.miit.gov.cn" target="_blank"
           >豫ICP备2024091391号-1</a
@@ -83,7 +90,7 @@ const getJitang = async () => {
 // getJitang();
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .jitang {
   margin-top: 10px;
   font-size: 16px;
